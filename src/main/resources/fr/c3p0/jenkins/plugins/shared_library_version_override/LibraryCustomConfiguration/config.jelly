@@ -1,0 +1,16 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:f="/lib/form">
+    <f:entry title="${%Name}" field="name">
+        <f:textbox />
+    </f:entry>
+    <f:entry title="${%Version}" field="version">
+        <f:textbox />
+    </f:entry>
+    <f:entry>
+        <f:validateButton title="${%Validate}"
+                          method="validate" with="name,version" />
+    </f:entry>
+    <f:entry>
+        <f:repeatableDeleteButton />
+    </f:entry>
+</j:jelly>
