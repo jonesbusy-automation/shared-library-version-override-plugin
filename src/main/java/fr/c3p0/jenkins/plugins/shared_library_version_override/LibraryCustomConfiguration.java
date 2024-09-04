@@ -14,6 +14,7 @@ import org.kohsuke.stapler.AncestorInPath;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.QueryParameter;
 import org.kohsuke.stapler.interceptor.RequirePOST;
+import org.kohsuke.stapler.verb.POST;
 
 import javax.servlet.ServletException;
 import java.io.IOException;
@@ -81,15 +82,27 @@ public class LibraryCustomConfiguration extends AbstractDescribableImpl<LibraryC
 
     @Extension
     public static class DescriptorImpl extends Descriptor<LibraryCustomConfiguration> {
-        public FormValidation doCheckName(@QueryParameter("value") String name) throws IOException, ServletException {
+        @POST
+        public FormValidation doCheckName(@QueryParameter("value") String name, @AncestorInPath Item item) throws IOException, ServletException {
+            if (item == null) {
+                Jenkins.get().checkPermission(Jenkins.ADMINISTER);
+            } else {
+                item.checkPermission(Item.CONFIGURE);
+            }
             return isNameValid(name);
         }
 
-        public FormValidation doCheckVersion(@QueryParameter("value") String version) throws IOException, ServletException {
+        @POST
+        public FormValidation doCheckVersion(@QueryParameter("value") String version, @AncestorInPath Item item) throws IOException, ServletException {
+            if (item == null) {
+                Jenkins.get().checkPermission(Jenkins.ADMINISTER);
+            } else {
+                item.checkPermission(Item.CONFIGURE);
+            }
             return isVersionValid(version);
         }
 
-        @RequirePOST
+        @POST
         public FormValidation doValidate(@QueryParameter("name") final String name, @QueryParameter("version") final String version, @AncestorInPath Item item) throws ServletException, IOException {
             if (item == null) {
                 Jenkins.get().checkPermission(Jenkins.ADMINISTER);
