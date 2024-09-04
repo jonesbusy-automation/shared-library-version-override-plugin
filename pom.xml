@@ -12,6 +12,7 @@
     <artifactId>shared-library-version-override</artifactId>
     <version>${changelist}</version>
     <packaging>hpi</packaging>
+
     <name>Shared Library Version Override</name>
     <description>Jenkins plugin to override the version of a Jenkins Shared Library all over an AbstractFolder
     </description>
@@ -44,7 +45,7 @@
         <jenkins.baseline>2.440</jenkins.baseline>
         <jenkins.version>${jenkins.baseline}.3</jenkins.version>
 
-        <gitHubRepo>c3po-maif/${project.artifactId}</gitHubRepo>
+        <gitHubRepo>c3p0-maif/${project.artifactId}</gitHubRepo>
         <spotless.check.skip>false</spotless.check.skip>
     </properties>
 
@@ -99,4 +100,20 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <!-- get every artifact through repo.jenkins-ci.org, which proxies all the artifacts that we need -->
+    <repositories>
+        <repository>
+            <id>repo.jenkins-ci.org</id>
+            <url>https://repo.jenkins-ci.org/public/</url>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>repo.jenkins-ci.org</id>
+            <url>https://repo.jenkins-ci.org/public/</url>
+        </pluginRepository>
+    </pluginRepositories>
+
 </project>
