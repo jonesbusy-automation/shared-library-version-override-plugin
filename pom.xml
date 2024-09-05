@@ -8,7 +8,7 @@
         <version>4.87</version>
         <relativePath/>
     </parent>
-    <groupId>fr.c3p0.jenkins.plugins</groupId>
+    <groupId>io.jenkins.plugins</groupId>
     <artifactId>shared-library-version-override</artifactId>
     <version>${changelist}</version>
     <packaging>hpi</packaging>
