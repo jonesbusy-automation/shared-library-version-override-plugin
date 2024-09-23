@@ -1,4 +1,4 @@
-package fr.c3p0.jenkins.plugins.shared_library_version_override;
+package io.jenkins.plugins.shared_library_version_override;
 
 /*
  * The MIT License
@@ -26,6 +26,7 @@ package fr.c3p0.jenkins.plugins.shared_library_version_override;
 
 import com.cloudbees.hudson.plugins.folder.Folder;
 import hudson.model.Result;
+import java.util.Collections;
 import jenkins.plugins.git.GitSCMSource;
 import jenkins.plugins.git.GitSampleRepoRule;
 import org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition;
@@ -40,14 +41,14 @@ import org.junit.Test;
 import org.jvnet.hudson.test.BuildWatcher;
 import org.jvnet.hudson.test.JenkinsRule;
 
-import java.util.Collections;
-
 public class FolderConfigurationsTest {
 
     @ClassRule
     public static BuildWatcher buildWatcher = new BuildWatcher();
+
     @Rule
     public JenkinsRule r = new JenkinsRule();
+
     @Rule
     public GitSampleRepoRule sampleRepo = new GitSampleRepoRule();
 
@@ -67,7 +68,8 @@ public class FolderConfigurationsTest {
 
     @Test
     public void withoutOverride() throws Exception {
-        LibraryConfiguration lc = new LibraryConfiguration("greet", new SCMSourceRetriever(new GitSCMSource(sampleRepo.toString())));
+        LibraryConfiguration lc =
+                new LibraryConfiguration("greet", new SCMSourceRetriever(new GitSCMSource(sampleRepo.toString())));
         lc.setDefaultVersion("master");
         GlobalLibraries.get().setLibraries(Collections.singletonList(lc));
 
@@ -80,7 +82,8 @@ public class FolderConfigurationsTest {
 
     @Test
     public void withFolderOverride() throws Exception {
-        LibraryConfiguration lc = new LibraryConfiguration("greet", new SCMSourceRetriever(new GitSCMSource(sampleRepo.toString())));
+        LibraryConfiguration lc =
+                new LibraryConfiguration("greet", new SCMSourceRetriever(new GitSCMSource(sampleRepo.toString())));
         lc.setDefaultVersion("master");
         GlobalLibraries.get().setLibraries(Collections.singletonList(lc));
 
@@ -97,7 +100,8 @@ public class FolderConfigurationsTest {
 
     @Test
     public void withAnotherFolderOverride() throws Exception {
-        LibraryConfiguration lc = new LibraryConfiguration("greet", new SCMSourceRetriever(new GitSCMSource(sampleRepo.toString())));
+        LibraryConfiguration lc =
+                new LibraryConfiguration("greet", new SCMSourceRetriever(new GitSCMSource(sampleRepo.toString())));
         lc.setDefaultVersion("master");
         GlobalLibraries.get().setLibraries(Collections.singletonList(lc));
 
@@ -115,7 +119,8 @@ public class FolderConfigurationsTest {
 
     @Test
     public void withJenkinsfileOverride() throws Exception {
-        LibraryConfiguration lc = new LibraryConfiguration("greet", new SCMSourceRetriever(new GitSCMSource(sampleRepo.toString())));
+        LibraryConfiguration lc =
+                new LibraryConfiguration("greet", new SCMSourceRetriever(new GitSCMSource(sampleRepo.toString())));
         lc.setDefaultVersion("master");
         GlobalLibraries.get().setLibraries(Collections.singletonList(lc));
 
@@ -132,7 +137,8 @@ public class FolderConfigurationsTest {
 
     @Test
     public void withInvalidVersion() throws Exception {
-        LibraryConfiguration lc = new LibraryConfiguration("greet", new SCMSourceRetriever(new GitSCMSource(sampleRepo.toString())));
+        LibraryConfiguration lc =
+                new LibraryConfiguration("greet", new SCMSourceRetriever(new GitSCMSource(sampleRepo.toString())));
         lc.setDefaultVersion("master");
         GlobalLibraries.get().setLibraries(Collections.singletonList(lc));
 
@@ -149,7 +155,8 @@ public class FolderConfigurationsTest {
 
     @Test
     public void withImmutableLibrary() throws Exception {
-        LibraryConfiguration lc = new LibraryConfiguration("greet", new SCMSourceRetriever(new GitSCMSource(sampleRepo.toString())));
+        LibraryConfiguration lc =
+                new LibraryConfiguration("greet", new SCMSourceRetriever(new GitSCMSource(sampleRepo.toString())));
         lc.setDefaultVersion("master");
         lc.setAllowVersionOverride(false);
         GlobalLibraries.get().setLibraries(Collections.singletonList(lc));

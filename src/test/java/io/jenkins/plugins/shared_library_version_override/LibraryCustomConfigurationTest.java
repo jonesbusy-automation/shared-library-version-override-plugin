@@ -1,5 +1,8 @@
-package fr.c3p0.jenkins.plugins.shared_library_version_override;
+package io.jenkins.plugins.shared_library_version_override;
 
+import static org.junit.Assert.*;
+
+import java.util.Collections;
 import jenkins.plugins.git.GitSCMSource;
 import jenkins.plugins.git.GitSampleRepoRule;
 import org.jenkinsci.plugins.workflow.libs.GlobalLibraries;
@@ -10,13 +13,10 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.jvnet.hudson.test.JenkinsRule;
 
-import java.util.Collections;
-
-import static org.junit.Assert.*;
-
 public class LibraryCustomConfigurationTest {
     @Rule
     public JenkinsRule r = new JenkinsRule();
+
     @Rule
     public GitSampleRepoRule sampleRepo = new GitSampleRepoRule();
 
@@ -33,7 +33,8 @@ public class LibraryCustomConfigurationTest {
         sampleRepo.write("src/pkg/Clazz.groovy", "package pkg; class Clazz {static String whereAmI() {'develop'}}");
         sampleRepo.git("commit", "--all", "--message=branching");
 
-        LibraryConfiguration lc = new LibraryConfiguration("greet", new SCMSourceRetriever(new GitSCMSource(sampleRepo.toString())));
+        LibraryConfiguration lc =
+                new LibraryConfiguration("greet", new SCMSourceRetriever(new GitSCMSource(sampleRepo.toString())));
         lc.setDefaultVersion("master");
         GlobalLibraries.get().setLibraries(Collections.singletonList(lc));
     }

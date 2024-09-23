@@ -1,4 +1,4 @@
-package fr.c3p0.jenkins.plugins.shared_library_version_override;
+package io.jenkins.plugins.shared_library_version_override;
 
 import com.cloudbees.hudson.plugins.folder.AbstractFolder;
 import com.cloudbees.hudson.plugins.folder.AbstractFolderProperty;
@@ -10,16 +10,15 @@ import hudson.ExtensionList;
 import hudson.model.Item;
 import hudson.model.ItemGroup;
 import hudson.model.Job;
+import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.jenkinsci.plugins.workflow.libs.GlobalLibraries;
 import org.jenkinsci.plugins.workflow.libs.LibraryConfiguration;
 import org.jenkinsci.plugins.workflow.libs.LibraryResolver;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.DataBoundSetter;
 import org.kohsuke.stapler.StaplerRequest;
-
-import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * A class that holds a list of overrides configurations for a folder
@@ -102,12 +101,13 @@ public class FolderConfigurations extends AbstractFolderProperty<AbstractFolder<
             return libraries;
         }
 
-        private static LibraryConfiguration getLibraryConfiguration(LibraryCustomConfiguration item, GlobalLibraries libs) {
+        private static LibraryConfiguration getLibraryConfiguration(
+                LibraryCustomConfiguration item, GlobalLibraries libs) {
             LibraryConfiguration libConfig = null;
             for (LibraryConfiguration lib : libs.getLibraries()) {
                 if (lib.getName().equals(item.getName())) {
                     // if original library don't allow version override, so don't take it
-                    if (! lib.isAllowVersionOverride()) {
+                    if (!lib.isAllowVersionOverride()) {
                         continue;
                     }
                     libConfig = new LibraryConfiguration(lib.getName(), lib.getRetriever());
@@ -123,7 +123,8 @@ public class FolderConfigurations extends AbstractFolderProperty<AbstractFolder<
 
         @NonNull
         @Override
-        public Collection<LibraryConfiguration> forJob(@NonNull Job<?, ?> job, @NonNull Map<String, String> libraryVersions) {
+        public Collection<LibraryConfiguration> forJob(
+                @NonNull Job<?, ?> job, @NonNull Map<String, String> libraryVersions) {
             return forGroup(job.getParent(), false);
         }
 

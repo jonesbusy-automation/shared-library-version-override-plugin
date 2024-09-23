@@ -1,4 +1,4 @@
-package fr.c3p0.jenkins.plugins.shared_library_version_override;
+package io.jenkins.plugins.shared_library_version_override;
 
 import hudson.Extension;
 import hudson.ExtensionList;
@@ -7,19 +7,18 @@ import hudson.model.AbstractDescribableImpl;
 import hudson.model.Descriptor;
 import hudson.model.Item;
 import hudson.util.FormValidation;
+import hudson.util.ListBoxModel;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import javax.servlet.ServletException;
 import jenkins.model.Jenkins;
 import org.jenkinsci.plugins.workflow.libs.GlobalLibraries;
 import org.jenkinsci.plugins.workflow.libs.LibraryConfiguration;
 import org.kohsuke.stapler.AncestorInPath;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.QueryParameter;
-import org.kohsuke.stapler.interceptor.RequirePOST;
 import org.kohsuke.stapler.verb.POST;
-
-import javax.servlet.ServletException;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Shared library version override configuration
@@ -82,8 +81,25 @@ public class LibraryCustomConfiguration extends AbstractDescribableImpl<LibraryC
 
     @Extension
     public static class DescriptorImpl extends Descriptor<LibraryCustomConfiguration> {
+
         @POST
-        public FormValidation doCheckName(@QueryParameter("value") String name, @AncestorInPath Item item) throws IOException, ServletException {
+        public ListBoxModel doFillNameItems(@AncestorInPath Item item) {
+            if (item == null) {
+                Jenkins.get().checkPermission(Jenkins.ADMINISTER);
+            } else {
+                item.checkPermission(Item.CONFIGURE);
+            }
+            ListBoxModel items = new ListBoxModel();
+            GlobalLibraries libs = ExtensionList.lookupSingleton(GlobalLibraries.class);
+            for (LibraryConfiguration lib : libs.getLibraries()) {
+                items.add(new ListBoxModel.Option(lib.getName(), lib.getName()));
+            }
+            return items;
+        }
+
+        @POST
+        public FormValidation doCheckName(@QueryParameter("value") String name, @AncestorInPath Item item)
+                throws IOException, ServletException {
             if (item == null) {
                 Jenkins.get().checkPermission(Jenkins.ADMINISTER);
             } else {
@@ -93,7 +109,8 @@ public class LibraryCustomConfiguration extends AbstractDescribableImpl<LibraryC
         }
 
         @POST
-        public FormValidation doCheckVersion(@QueryParameter("value") String version, @AncestorInPath Item item) throws IOException, ServletException {
+        public FormValidation doCheckVersion(@QueryParameter("value") String version, @AncestorInPath Item item)
+                throws IOException, ServletException {
             if (item == null) {
                 Jenkins.get().checkPermission(Jenkins.ADMINISTER);
             } else {
@@ -103,7 +120,11 @@ public class LibraryCustomConfiguration extends AbstractDescribableImpl<LibraryC
         }
 
         @POST
-        public FormValidation doValidate(@QueryParameter("name") final String name, @QueryParameter("version") final String version, @AncestorInPath Item item) throws ServletException, IOException {
+        public FormValidation doValidate(
+                @QueryParameter("name") final String name,
+                @QueryParameter("version") final String version,
+                @AncestorInPath Item item)
+                throws ServletException, IOException {
             if (item == null) {
                 Jenkins.get().checkPermission(Jenkins.ADMINISTER);
             } else {

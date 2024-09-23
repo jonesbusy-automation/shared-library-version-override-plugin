@@ -1,5 +1,5 @@
 <?jelly escape-by-default='true'?>
 <div>
-    This plugin allows users to override the version of a Jenkins Shared Library all
-    over an AbstractFolder.
+    Allows users to override the version of a Jenkins Shared Library all
+    over an Folder.
 </div>
