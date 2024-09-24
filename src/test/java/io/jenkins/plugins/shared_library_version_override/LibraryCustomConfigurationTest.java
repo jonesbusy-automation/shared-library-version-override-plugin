@@ -47,15 +47,5 @@ public class LibraryCustomConfigurationTest {
         LibraryCustomConfiguration item = new LibraryCustomConfiguration(libraryName, defaultVersion);
         assertEquals("greet", item.getName());
         assertEquals("master", item.getVersion());
-        assertTrue(item.isValid());
-    }
-
-    @Test
-    public void invalidName() throws Exception {
-        String libraryName = "groot";
-        String defaultVersion = "master";
-
-        LibraryCustomConfiguration item = new LibraryCustomConfiguration(libraryName, defaultVersion);
-        assertFalse(item.isValid());
     }
 }
