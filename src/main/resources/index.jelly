@@ -1,5 +1,5 @@
 <?jelly escape-by-default='true'?>
 <div>
-    Allows users to override the version of a Jenkins Shared Library all
-    over an Folder.
+    Allows users to override the version of a Jenkins Shared Library
+    in Folders.
 </div>
