@@ -14,10 +14,16 @@ With this plugin, you can configure a specific version of a [Shared Library](htt
 ## Setup
 
 - Be sure you have [Pipeline Groovy Libraries](https://plugins.jenkins.io/pipeline-groovy-lib/) installed
-- Go to the configuration page of your AbstractFolder
+- Go to the configuration page of your Folder, Organization Folder, Pipeline Multibranches, ...
 - Under The *Shared Library Version Override* section, add a new *Custom Configuration* element
 
 ![Configuration](doc/assets/configuration.png)
+
+## Security
+
+- A *Global Pipeline Library* without the "Allow default version to be overridden" option, can't be overridden with this plugin, a custom configuration will be skipped.
+- An overridden *Global Trusted Pipeline Library* will still be trusted.  
+- An overridden *Global Untrusted Pipeline Library* or a *Pipeline Library* defined at Folder level, will still be untrusted so their code runs with sandbox restrictions and cannot use @Grab.  
 
 ## LICENSE
 
